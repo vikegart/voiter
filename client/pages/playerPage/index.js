@@ -1,28 +1,28 @@
 const socket = io();
 
-const nameInput = document.getElementsByClassName("team-name-input")[0];
-const nameGroup = document.getElementsByClassName("team-name-group")[0];
-const answerGroup = document.getElementsByClassName("answer-group")[0];
+import answerButton from './button-component';
 
-const loginButton = document.getElementsByClassName("login-button")[0];
-const logoutButton = document.getElementsByClassName("logout-button")[0];
-const answerButton = document.getElementsByClassName("answer-button")[0];
+const answerGroup = document.getElementsByClassName("answer-group")[0];
+const waitScreen = document.getElementsByClassName('wait-screen')[0];
 
 let name = "";
-let ready = false;
-
-const onLoginClick = e => {
-    const inputValue = nameInput.value;
-    if (!inputValue || !inputValue.trim()) return;
-    name = inputValue;
-    nameGroup.classList.add("hidden");
-    answerGroup.classList.remove("hidden");
+let state = {
+    ready: false,
+    buttons: [],
 };
 
-const onLogoutClick = e => {
-    nameGroup.classList.remove("hidden");
-    answerGroup.classList.add("hidden");
-};
+const update = () => {
+    if (state.ready) {
+        waitScreen.classList.toggle('hidden');
+        answerGroup.classList.toggle('hidden');
+        state.buttons.forEach((button, index) => {
+            answerGroup.appendChild(answerButton(index));
+        });
+    } else {
+        waitScreen.classList.toggle('hidden');
+        answerGroup.classList.toggle('hidden');
+    }
+}
 
 const onAnswerClick = e => {
     if (ready) {
@@ -33,15 +33,16 @@ const onAnswerClick = e => {
     }
 };
 
-loginButton.addEventListener("click", onLoginClick);
-logoutButton.addEventListener("click", onLogoutClick);
 answerButton.addEventListener("click", onAnswerClick);
 
-socket.on('ready', isReady => (ready = isReady));
-socket.on('tried', () => { 
+socket.on('ready', state => {
+    state = { ...state };
+    update();
+});
+socket.on('tried', () => {
     if (window.navigator.vibrate) {
-        window.navigator.vibrate(0); 
-        window.navigator.vibrate([300, 100, 300]); 
+        window.navigator.vibrate(0);
+        window.navigator.vibrate([300, 100, 300]);
     }
 });
 
