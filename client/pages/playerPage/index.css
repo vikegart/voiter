@@ -1,6 +1,9 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
 html,
 body {
     height: 100%;
+    font-family: Montserrat;
 }
 
 .main {
@@ -17,37 +20,6 @@ body {
     flex-flow: column nowrap;
     align-items: center;
     width: 90%;
-}
-
-.team-name {
-    font-size: 30px;
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
-    width: 100%;
-}
-
-.team-name-input {
-    width: 95%;
-}
-
-.login-button {
-    width: 30%;
-    margin-top: 20px;
-    height: 40px;
-}
-
-.logout-button {
-    margin-top: 50px;
-    text-decoration: underline;
-    border: 0;
-    background: 0;
-    padding: 0;
-}
-
-.logout-button:hover,
-.logout-button:active {
-    color: red;
 }
 
 .answer-button {
