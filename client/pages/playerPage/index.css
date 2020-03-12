@@ -23,8 +23,9 @@ body {
 }
 
 .answer-button {
-    width: 350px;
-    height: 350px;
+    width: 100px;
+    height: 100px;
+    margin: 10px;
     font-size: 30px;
     cursor: pointer;
     text-align: center;
