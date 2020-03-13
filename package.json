@@ -1,14 +1,14 @@
 {
-  "name": "who-first-soket",
+  "name": "voiter",
   "version": "1.0.0",
-  "description": "simple web app, that shows who faster in button pressing",
+  "description": "simple web app, that shows audience response in real time",
   "main": "index.js",
   "scripts": {
     "start": "nodemon ./server/index.js",
-    "start:pm2": "pm2 start ./server/index.js --name \" si-game \" ",
+    "start:pm2": "pm2 start ./server/index.js --name \" voiter \" ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Vikentii Ekgart && Aleksandr Ivanov",
+  "author": "Vikentii Ekgart",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
