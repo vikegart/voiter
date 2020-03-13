@@ -16,8 +16,9 @@ app.use('/', express.static('client/pages/playerPage'));
 app.use(SECURE_URL, express.static('client/pages/hostPage'));
 app.use(SHARED_URL, express.static('client/shared'));
 
-const responseContainer = [];
-const countAnswer = {};
+let responseContainer = [];
+let countAnswer = {};
+let percentageAnswer = {};
 
 io.on("connection", function (socket) {
   console.log("user is connected");
@@ -26,6 +27,11 @@ io.on("connection", function (socket) {
   });
 
   socket.on("ready", function (state) {
+    if (!state.ready){
+      responseContainer = [];
+      countAnswer = {};
+      percentageAnswer = {};
+    }
     io.emit("ready", state);
   });
 
