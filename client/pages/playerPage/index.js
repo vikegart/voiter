@@ -42,6 +42,7 @@ const update = () => {
     } else {
         waitScreen.classList.remove('hidden');
         answerGroup.classList.add('hidden');
+        answerGroup.innerHTML = '';
     }
 }
 
