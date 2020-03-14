@@ -4,6 +4,8 @@ const http = require("http").Server(app);
 const cors = require('cors');
 
 const io = require("socket.io")(http);
+const recalculateStats = require('./statsWorker');
+
 const port = process.env.PORT || 3000;
 
 const SECURE_URL = '/chto';
@@ -17,8 +19,7 @@ app.use(SECURE_URL, express.static('client/pages/hostPage'));
 app.use(SHARED_URL, express.static('client/shared'));
 
 let responseContainer = [];
-let countAnswer = {};
-let percentageAnswer = {};
+
 
 io.on("connection", function (socket) {
   console.log("user is connected");
@@ -27,26 +28,16 @@ io.on("connection", function (socket) {
   });
 
   socket.on("ready", function (state) {
-    if (!state.ready){
+    if (!state.ready) {
       responseContainer = [];
-      countAnswer = {};
-      percentageAnswer = {};
     }
     io.emit("ready", state);
   });
 
   socket.on("answer", function (answer) {
     responseContainer.push(answer);
-    //пересчет статистики
-    for (let i = 0; i < responseContainer.length; i++) {
-      let currentAnswer = responseContainer[i];
-      if (countAnswer[currentAnswer]) {
-        countAnswer[currentAnswer] += 1;
-      } else {
-        countAnswer[currentAnswer] = 1;
-      }
-    }
-    io.emit("results", countAnswer);
+    const stats = recalculateStats(responseContainer);
+    io.emit("results", stats);
   });
 
 });
