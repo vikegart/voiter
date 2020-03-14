@@ -1,5 +1,5 @@
 import { answerButton } from './button-component.mjs';
-
+import { fitText } from "./fitText.mjs";
 
 const socket = io();
 const DEBUG_MODE = false;
@@ -38,8 +38,12 @@ const update = () => {
         answerGroup.classList.remove('hidden');
         state.buttons.forEach((button, index) => {
             const labelText = button.label || index;
-            answerGroup.innerHTML += answerButton(index);
+            answerGroup.innerHTML += answerButton(labelText);
         });
+        const htmlBtns = document.getElementsByClassName('answer-button');
+        for (const btn of htmlBtns) {
+            fitText(btn);
+        }        
     } else {
         waitScreen.classList.remove('hidden');
         answerGroup.classList.add('hidden');
@@ -51,7 +55,7 @@ const handleGroupClick = e => {
     const answer = e.target.innerText;
     socket.emit("answer", answer);
     window.navigator.vibrate && window.navigator.vibrate([300]);
-    state = {ready: false, buttons: []};
+    state = { ready: false, buttons: [] };
     update();
 };
 
@@ -63,5 +67,3 @@ socket.on('ready', newState => {
     DEBUG_MODE && setDefState();
     update();
 });
-
-
