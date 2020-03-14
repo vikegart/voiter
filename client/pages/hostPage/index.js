@@ -9,7 +9,7 @@ const defaultState = {
     ready: true,
     buttons: [
         {
-            label: 'A',
+            label: 'Очень длинный лейбл!',
         },
         {
             label: 'B',

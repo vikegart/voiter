@@ -37,6 +37,7 @@ const update = () => {
         waitScreen.classList.add('hidden');
         answerGroup.classList.remove('hidden');
         state.buttons.forEach((button, index) => {
+            const labelText = button.label || index;
             answerGroup.innerHTML += answerButton(index);
         });
     } else {
