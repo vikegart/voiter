@@ -1,3 +1,3 @@
-export const answerButton = (index) => {
-    return `<button class="answer-button">${index}</button>`;
+export const answerButton = (lableText, index) => {
+    return `<button data-index="${index}" class="answer-button">${lableText}</button>`;
 }

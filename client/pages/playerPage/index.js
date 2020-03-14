@@ -32,13 +32,12 @@ let state = {
 };
 
 const update = () => {
-    console.log(state);
     if (state.ready) {
         waitScreen.classList.add('hidden');
         answerGroup.classList.remove('hidden');
         state.buttons.forEach((button, index) => {
             const labelText = button.label || index;
-            answerGroup.innerHTML += answerButton(labelText);
+            answerGroup.innerHTML += answerButton(labelText, index);
         });
         const htmlBtns = document.getElementsByClassName('answer-button');
         for (const btn of htmlBtns) {
@@ -52,8 +51,9 @@ const update = () => {
 }
 
 const handleGroupClick = e => {
-    const answer = e.target.innerText;
-    socket.emit("answer", answer);
+    const label = e.target.innerText;
+    const index = e.target.getAttribute('data-index');
+    socket.emit("answer", index);
     window.navigator.vibrate && window.navigator.vibrate([300]);
     state = { ready: false, buttons: [] };
     update();
@@ -63,7 +63,6 @@ answerGroup.addEventListener("click", handleGroupClick);
 
 socket.on('ready', newState => {
     state = { ...newState };
-    console.log(state);
     DEBUG_MODE && setDefState();
     update();
 });
